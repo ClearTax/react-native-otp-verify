@@ -57,10 +57,8 @@ public class OtpBroadcastReceiver extends BroadcastReceiver {
                     // Get SMS message contents
                     String message = (String) extras.get(SmsRetriever.EXTRA_SMS_MESSAGE);
                     receiveMessage(message);
-                    Log.d("SMS", message);
                     break;
                 case CommonStatusCodes.TIMEOUT:
-                    Log.d("SMS", "Timeout error");
                     mContext
                             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit(EVENT, "Timeout Error.");

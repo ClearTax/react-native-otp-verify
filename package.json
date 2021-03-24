@@ -1,6 +1,6 @@
 {
-  "name": "react-native-otp-verify",
-  "version": "1.0.1",
+  "name": "@cleartax/react-native-otp-verify",
+  "version": "0.0.1",
   "description": "React native sms verification without additional permissions.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,11 +15,11 @@
     "Verification",
     "Sms-retreiver"
   ],
-  "author": "Faizal Shap",
+  "author": "Sony Venkatesh",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:faizalshap/react-native-otp-verify.git"
+    "url": "git@github.com/sarsony1/react-native-otp-verify.git"
   },
   "peerDependencies": {
     "react-native": "^0.57.3"
