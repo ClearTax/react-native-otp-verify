@@ -1,14 +1,11 @@
-
 package com.faizal.OtpVerify;
 
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
-// import android.support.annotation.NonNull;
 import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -22,7 +19,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
-public class RNOtpVerifyModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+public class RNOtpVerifyModule extends ReactContextBaseJavaModule  {
     private static final String TAG = RNOtpVerifyModule.class.getSimpleName();
     private final ReactApplicationContext reactContext;
     private BroadcastReceiver mReceiver;
@@ -32,8 +29,7 @@ public class RNOtpVerifyModule extends ReactContextBaseJavaModule implements Lif
         super(reactContext);
         this.reactContext = reactContext;
         mReceiver = new OtpBroadcastReceiver(reactContext);
-        getReactApplicationContext().addLifecycleEventListener(this);
-        registerReceiverIfNecessary(mReceiver);
+        registerReceiver();
     }
 
     @Override
@@ -62,11 +58,11 @@ public class RNOtpVerifyModule extends ReactContextBaseJavaModule implements Lif
     }
 
 
-    private void registerReceiverIfNecessary(BroadcastReceiver receiver) {
+    public void registerReceiver() {
         if (getCurrentActivity() == null) return;
         try {
             getCurrentActivity().registerReceiver(
-                    receiver,
+                    mReceiver,
                     new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
             );
             Log.d(TAG, "Receiver Registered");
@@ -96,10 +92,10 @@ public class RNOtpVerifyModule extends ReactContextBaseJavaModule implements Lif
         });
     }
 
-    private void unregisterReceiver(BroadcastReceiver receiver) {
-        if (isReceiverRegistered && getCurrentActivity() != null && receiver != null) {
+    public void unregisterReceiver() {
+        if (isReceiverRegistered && getCurrentActivity() != null && mReceiver != null) {
             try {
-                getCurrentActivity().unregisterReceiver(receiver);
+                getCurrentActivity().unregisterReceiver(mReceiver);
                 Log.d(TAG, "Receiver UnRegistered");
                 isReceiverRegistered = false;
             } catch (Exception e) {
@@ -107,21 +103,5 @@ public class RNOtpVerifyModule extends ReactContextBaseJavaModule implements Lif
             }
         }
     }
-
-    @Override
-    public void onHostResume() {
-        registerReceiverIfNecessary(mReceiver);
-    }
-
-    @Override
-    public void onHostPause() {
-        unregisterReceiver(mReceiver);
-    }
-
-    @Override
-    public void onHostDestroy() {
-        unregisterReceiver(mReceiver);
-    }
-
 }
 
